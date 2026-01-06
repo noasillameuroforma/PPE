@@ -1,16 +1,34 @@
-# PPE— Installation rapide
+# PPE — Installation rapide
 
-1. Copier le projet dans un dossier.
-2. Renommer `.env.example` en `.env` et mettre tes identifiants DB.
-3. Importer `migration.sql` dans MySQL :
-   `mysql -u root -p < migration.sql` ou via un client MySQL.
-4. Lancer le serveur PHP (depuis le dossier `public`):
-   `php -S localhost:8000` (ou configure Apache/Nginx pour pointer sur `public/`).
-5. Ouvrir http://localhost:8000
+1. Copie le projet dans un dossier.
 
-Compte admin créé : `alice.m` / `hash_pwd_1` 
+2. Va dans `Database.php` et renseigne tes identifiants de base de données.
 
-Notes de sécurité supplémentaires:
-- Utilise HTTPS en production et mets `SESSION_COOKIE_SECURE=1` dans `.env`.
-- Active HSTS côté serveur web.
-- Ajuste la politique CSP selon tes besoins.
+3. Lance le serveur PHP depuis le dossier public :
+
+      `php -S localhost:8000`
+
+
+(ou configure Apache/Nginx pour pointer vers public/).
+
+4. Ouvre l’application dans ton navigateur :
+http://localhost:8000
+
+### Compte administrateur créé :
+
+Identifiant : `alice.m`
+
+Mot de passe : `hash_pwd_1`
+
+5. Accès à la page /etat selon ton environnement :
+
+Via la ligne de commande PHP :
+http://localhost:8000/public/etat
+
+Avec WAMP : place le projet dans le dossier www, puis ouvre
+http://localhost/ppe/public/etat
+
+Avec XAMPP : place le projet dans le dossier htdocs, puis ouvre
+http://localhost/ppe/public/etat
+
+
