@@ -20,13 +20,13 @@
 </head>
 <body>
     <div class="topbar">
-        <h1 style="margin:0;">Liste des États</h1>
+        <h1 style="margin:0;">Liste des États test</h1>
         <a class="button" href="/dashboard">Dashboard</a>
         <a class="button" href="/logout">Se déconnecter</a>
         <a class="button" href="/fraisForfait">Frais forfait</a>
     </div>
 
-    <a class="button" href="/etat/create">➕ Ajouter un état</a>
+    <a class="button" href="etat/create">➕ Ajouter un état</a>
 
     <?php if (!empty($message)): ?>
         <div class="flash"><?= htmlspecialchars($message) ?></div>

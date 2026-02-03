@@ -44,7 +44,11 @@ $router->get('/fraisForfait',       [Controllers\FraisForfaitController::class, 
 $router->get('/fraisForfait/',       [Controllers\FraisForfaitController::class, 'index']);
 
 
+$router->get('/ficheFrais',        [Controllers\FicheFraisController::class, 'index']);
+$router->get('/ficheFrais/',       [Controllers\FicheFraisController::class, 'index']);
 
+$router->get('/ficheFrais/create', [Controllers\FicheFraisController::class, 'create']);
+$router->post('/ficheFrais/create',[Controllers\FicheFraisController::class, 'store']);
 
 
 
@@ -84,6 +88,59 @@ if (preg_match('#^' . preg_quote($scriptDir, '#') . '/etat/([0-9]+)/edit$#', $_S
     exit;
 }
 
+
+
+
+
+// ----------------------
+// Fallback manuel : /ficheFrais/{idVisiteur}/{mois}
+// ----------------------
+if (preg_match('#^' . preg_quote($scriptDir, '#') . '/ficheFrais/([0-9]+)/([0-9]+)$#', $_SERVER['REQUEST_URI'] ?? '', $m)
+    || preg_match('#^/ficheFrais/([0-9]+)/([0-9]+)$#', $requestPath, $m)) {
+
+    $idVisiteur = (int)$m[1];
+    $mois       = (int)$m[2];
+
+    (new \Controllers\FicheFraisController)->show($idVisiteur, $mois);
+    exit;
+}
+
+// ----------------------
+// Fallback manuel : /ficheFrais/{idVisiteur}/{mois}/edit
+// ----------------------
+if (preg_match('#^' . preg_quote($scriptDir, '#') . '/ficheFrais/([0-9]+)/([0-9]+)/edit$#', $_SERVER['REQUEST_URI'] ?? '', $m)
+    || preg_match('#^/ficheFrais/([0-9]+)/([0-9]+)/edit$#', $requestPath, $m)) {
+
+    $idVisiteur = (int)$m[1];
+    $mois       = (int)$m[2];
+
+    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+        (new \Controllers\FicheFraisController)->update($idVisiteur, $mois);
+    } else {
+        (new \Controllers\FicheFraisController)->edit($idVisiteur, $mois);
+    }
+    exit;
+}
+
+// ----------------------
+// Fallback manuel : /ficheFrais/{idVisiteur}/{mois}/delete
+// ----------------------
+if (preg_match('#^' . preg_quote($scriptDir, '#') . '/ficheFrais/([0-9]+)/([0-9]+)/delete$#', $_SERVER['REQUEST_URI'] ?? '', $m)
+    || preg_match('#^/ficheFrais/([0-9]+)/([0-9]+)/delete$#', $requestPath, $m)) {
+
+    $idVisiteur = (int)$m[1];
+    $mois       = (int)$m[2];
+
+    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+        (new \Controllers\FicheFraisController)->delete($idVisiteur, $mois);
+    } else {
+        // pas de delete en GET
+        header('Location: /ficheFrais');
+    }
+    exit;
+}
+
+
 // Fallback manuel pour /etat/{id}/delete
 if (preg_match('#^' . preg_quote($scriptDir, '#') . '/etat/([0-9]+)/delete$#', $_SERVER['REQUEST_URI'] ?? '', $m)
     || preg_match('#^/etat/([0-9]+)/delete$#', $requestPath, $m)) {
@@ -98,6 +155,11 @@ if (preg_match('#^' . preg_quote($scriptDir, '#') . '/etat/([0-9]+)/delete$#', $
     }
     exit;
 }
+
+$router->get('#^/ficheFrais/([0-9]+)/([0-9]+)$#',           [Controllers\FicheFraisController::class, 'show']);
+$router->get('#^/ficheFrais/([0-9]+)/([0-9]+)/edit$#',      [Controllers\FicheFraisController::class, 'edit']);
+$router->post('#^/ficheFrais/([0-9]+)/([0-9]+)/edit$#',     [Controllers\FicheFraisController::class, 'update']);
+$router->post('#^/ficheFrais/([0-9]+)/([0-9]+)/delete$#',   [Controllers\FicheFraisController::class, 'delete']);
 
 
 
